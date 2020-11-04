@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InnerJoystickScript : MonoBehaviour
 {
-    public Vector2 movementVector = Vector2.zero;
+    public static Vector2 movementVector = Vector2.zero; //modified to include static keyword
     public float maxDistance = 0.1f;
+    public static bool JoystickUsed; //added to read whether joystick is currently being used
     // Start is called before the first frame update
     void Start()
     {
-        
+        JoystickUsed = false;
     }
 
     // Update is called once per frame
@@ -23,6 +24,8 @@ public class InnerJoystickScript : MonoBehaviour
             innerJoystickPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             //move the joystick button to the touch position
             transform.position = innerJoystickPos;
+            //added to read whether joystick is currently being used
+            JoystickUsed = true;
         }
         else if (Input.touchCount < 1)
         {
@@ -43,6 +46,8 @@ public class InnerJoystickScript : MonoBehaviour
         {
             //if the screen isn't being touched, revert to initial position
             transform.localPosition = Vector2.zero;
+            //added to read whether joystick is currently being used
+            JoystickUsed = false;
         }
         //make sure the joystick stays inside the circle area
         transform.localPosition = Vector2.ClampMagnitude(transform.localPosition, maxDistance);
